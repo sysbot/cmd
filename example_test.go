@@ -37,14 +37,8 @@ func runGet(c *cmd.Command, args []string) {
 	// Do Stuff
 }
 
-// Example of command and help
-func main() {
-	// Parse / Execute our command
-	cmd.Parse()
-	// Nothing else to do here.
-}
-
 func Example() {
+	cmd.Parse()
 	// Calling cmd.Parse() from main() processes/executes your command
 	// It will return though there wont be anything left for you to do
 	// as far as executing your command goes
