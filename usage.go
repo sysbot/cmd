@@ -93,7 +93,6 @@ func printUsage() {
 
 	tmpl(bw, usageTemplate, usageData)
 	bw.Flush()
-	os.Exit(2)
 }
 
 // help implements the 'help' command.
