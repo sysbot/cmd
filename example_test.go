@@ -1,6 +1,10 @@
 package cmd_test
 
-import "zro.net/go/cmd"
+import (
+	"os"
+
+	"zro.net/go/cmd"
+)
 
 var cmdGet = cmd.Command{
 	UsageLine: "get [-d] ...",
@@ -25,7 +29,13 @@ Lots of help stuff here.
 var flagD = cmdGet.Flag.String("d", "", "")
 
 func init() {
+	// Only for test to pass
+	os.Args = []string{"example", "help"}
+	os.Stderr = os.Stdout
+
+	// Define our command name/description
 	cmd.Name = "example"
+	cmd.Desc = "example command"
 
 	// register our commands
 	cmd.Register(&cmdGet)
@@ -40,8 +50,25 @@ func runGet(c *cmd.Command, args []string) {
 }
 
 func Example() {
+	// cmd.Parse() executes your command though also returns.
 	cmd.Parse()
-	// Calling cmd.Parse() from main() processes/executes your command
-	// It will return though there wont be anything left for you to do
-	// as far as executing your command goes
+	// Output:
+	// example command
+	//
+	// Usage:
+	//
+	// example command [arguments]
+	//
+	// The commands are:
+	//
+	// 	get         compile packages and dependencies
+	//
+	// Use "example help [command]" for more information about a command.
+	//
+	// Additional help topics:
+	//
+	// 	gopath      GOPATH environment variable
+	//
+	// Use "example help [topic]" for more information about that topic.
+	//
 }
