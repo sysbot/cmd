@@ -34,7 +34,9 @@ Use "{{.Name}} help [topic]" for more information about that topic.
 
 var helpTemplate = `{{if .Runnable}}usage: go {{.UsageLine}}
 
-{{end}}{{.Long | trim}}
+{{end}}{{.Long | trim}}{{if .Runnable}}{{if .Defaults}}
+
+Command Options:{{end}}{{end}}
 `
 
 // An errWriter wraps a writer, recording whether a write error occurred.
@@ -111,7 +113,16 @@ func help(args []string) {
 
 	for _, cmd := range commands {
 		if cmd.Name() == arg {
-			tmpl(os.Stdout, helpTemplate, cmd)
+			usageData := struct {
+				*Command
+				Defaults bool
+			}{cmd, Defaults}
+
+			tmpl(os.Stdout, helpTemplate, usageData)
+			if Defaults {
+				cmd.Flag.PrintDefaults()
+			}
+
 			// not exit 2: succeeded at 'help cmd'.
 			return
 		}

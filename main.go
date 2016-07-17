@@ -17,6 +17,9 @@ var (
 
 	// Name of command we are running. defaults to command name executed
 	Name string
+
+	// Defaults defines whether we print flag defaults
+	Defaults bool = false
 )
 
 func init() {
