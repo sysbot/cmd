@@ -100,12 +100,12 @@ func printUsage() {
 func help(args []string) {
 	if len(args) == 0 {
 		printUsage()
-		// not exit 2: succeeded at 'go help'.
+		// not exit 2: succeeded at 'help'.
 		return
 	}
 	if len(args) != 1 {
-		fmt.Fprintf(os.Stderr, "usage: go help command\n\nToo many arguments given.\n")
-		os.Exit(2) // failed at 'go help'
+		fmt.Fprintf(os.Stderr, "usage: %s help command\n\nToo many arguments given.\n", Name)
+		os.Exit(2) // failed at 'help'
 	}
 
 	arg := args[0]
@@ -113,11 +113,11 @@ func help(args []string) {
 	for _, cmd := range commands {
 		if cmd.Name() == arg {
 			tmpl(os.Stdout, helpTemplate, cmd)
-			// not exit 2: succeeded at 'go help cmd'.
+			// not exit 2: succeeded at 'help cmd'.
 			return
 		}
 	}
 
-	fmt.Fprintf(os.Stderr, "Unknown help topic %#q.  Run 'go help'.\n", arg)
-	os.Exit(2) // failed at 'go help cmd'
+	fmt.Fprintf(os.Stderr, "Unknown help topic %#q.  Run '%s help'.\n", arg, Name)
+	os.Exit(2) // failed at 'help cmd'
 }
