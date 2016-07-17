@@ -25,12 +25,14 @@ Lots of help stuff here.
 var flagD = cmdGet.Flag.String("d", "", "")
 
 func init() {
-	// This prevents flag/command compile dependency loop
-	cmdGet.Run = runGet
+	cmd.Name = "example"
 
 	// register our commands
 	cmd.Register(&cmdGet)
 	cmd.Register(&helpPath)
+
+	// This prevents flag/command compile dependency loop
+	cmdGet.Run = runGet
 }
 
 func runGet(c *cmd.Command, args []string) {
