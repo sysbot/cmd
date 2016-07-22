@@ -41,6 +41,7 @@ func Parse() {
 	args := flag.Args()
 	if len(args) < 1 {
 		printUsage()
+		return
 	}
 
 	if args[0] == "help" {
