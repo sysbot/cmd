@@ -28,7 +28,7 @@ type Command struct {
 	Flag flag.FlagSet
 
 	// CustomFlags indicates that the command will do its own
-	// flag parsing.
+	// flag parsing.  This override PrefixArgs
 	CustomFlags bool
 }
 

@@ -21,6 +21,10 @@ var (
 	// Name of command we are running. defaults to command name executed
 	Name string
 
+	// PrefixArgs defines if we allow arguments to show up before flags. If
+	// this is allowed arguments (not starting with -) before and after flags
+	// will be picked up and given to the command
+	PrefixArgs bool
 )
 
 func init() {
@@ -30,6 +34,19 @@ func init() {
 // Register a command with the cmd system
 func Register(c *Command) {
 	commands = append(commands, c)
+}
+
+// splitArgs takes our args and pulls out the arguments from the beginning
+// returning us the arguments and the remaining flags
+func splitArgs(args []string) ([]string, []string) {
+	for idx, arg := range args {
+		if arg[0] == '-' {
+			return args[:idx], args[idx:]
+		}
+	}
+
+	// no flags found
+	return []string{}, args
 }
 
 // Parse loads arguments from the command line and processes them
@@ -52,8 +69,14 @@ func Parse() {
 	for _, cmd := range commands {
 		if cmd.Name() == args[0] && cmd.Runnable() {
 			cmd.Flag.Usage = func() { cmd.Usage() }
+
 			if cmd.CustomFlags {
 				args = args[1:]
+			} else if PrefixArgs {
+				var flags []string
+				args, flags = splitArgs(args[1:])
+				cmd.Flag.Parse(flags)
+				args = append(args, cmd.Flag.Args()...)
 			} else {
 				cmd.Flag.Parse(args[1:])
 				args = cmd.Flag.Args()
