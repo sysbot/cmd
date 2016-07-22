@@ -3,11 +3,11 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"html/template"
 	"io"
 	"log"
 	"os"
 	"strings"
+	"text/template"
 	"unicode"
 	"unicode/utf8"
 )
