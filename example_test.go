@@ -29,10 +29,6 @@ Lots of help stuff here.
 var flagD = cmdGet.Flag.String("d", "", "")
 
 func init() {
-	// Only for test to pass
-	os.Args = []string{"example", "help"}
-	os.Stderr = os.Stdout
-
 	// Define our command name/description
 	cmd.Name = "example"
 	cmd.Desc = "example command"
@@ -49,8 +45,10 @@ func runGet(c *cmd.Command, args []string) {
 	// Do Stuff
 }
 
-func Example() {
-	// cmd.Parse() executes your command though also returns.
+func ExampleAllHelp() {
+	os.Args = []string{"example", "help"}
+	os.Stderr = os.Stdout
+
 	cmd.Parse()
 	// Output:
 	// example command
@@ -71,4 +69,17 @@ func Example() {
 	//
 	// Use "example help [topic]" for more information about that topic.
 	//
+}
+
+func ExampleSubHelp() {
+	os.Args = []string{"example", "help", "get"}
+	os.Stderr = os.Stdout
+
+	cmd.Parse()
+	// Output:
+	// usage: go get [-d] ...
+	//
+	// Get downloads go packages...
+	//
+	// The -d flag instructs get...
 }
