@@ -101,12 +101,11 @@ func printUsage() {
 func help(args []string) {
 	if len(args) == 0 {
 		printUsage()
-		// not exit 2: succeeded at 'help'.
 		return
 	}
 	if len(args) != 1 {
 		fmt.Fprintf(os.Stderr, "usage: %s help command\n\nToo many arguments given.\n", Name)
-		os.Exit(2) // failed at 'help'
+		return
 	}
 
 	arg := args[0]
@@ -124,11 +123,9 @@ func help(args []string) {
 				cmd.Flag.PrintDefaults()
 			}
 
-			// not exit 2: succeeded at 'help cmd'.
 			return
 		}
 	}
 
 	fmt.Fprintf(os.Stderr, "Unknown help topic %#q.  Run '%s help'.\n", arg, Name)
-	os.Exit(2) // failed at 'help cmd'
 }

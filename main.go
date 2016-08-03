@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -50,7 +51,7 @@ func splitArgs(args []string) ([]string, []string) {
 }
 
 // Parse loads arguments from the command line and processes them
-func Parse() {
+func Parse() error {
 	flag.Usage = printUsage
 	flag.Parse()
 	log.SetFlags(0)
@@ -58,12 +59,12 @@ func Parse() {
 	args := flag.Args()
 	if len(args) < 1 {
 		printUsage()
-		return
+		return nil
 	}
 
 	if args[0] == "help" {
 		help(args[1:])
-		return
+		return nil
 	}
 
 	for _, cmd := range commands {
@@ -82,10 +83,10 @@ func Parse() {
 				args = cmd.Flag.Args()
 			}
 			cmd.Run(cmd, args)
-			return
+			return nil
 		}
 	}
 
 	fmt.Fprintf(os.Stderr, "%s: unknown subcommand %q\nRun '%s help' for usage.\n", Name, args[0], Name)
-	os.Exit(2)
+	return errors.New("command not found")
 }
