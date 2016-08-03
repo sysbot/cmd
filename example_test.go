@@ -77,9 +77,19 @@ func ExampleSubHelp() {
 
 	cmd.Parse()
 	// Output:
-	// usage: go get [-d] ...
+	// usage: example get [-d] ...
 	//
 	// Get downloads go packages...
 	//
 	// The -d flag instructs get...
+}
+
+func ExampleExecutePage() {
+	os.Args = []string{"example", "gopath"}
+	os.Stderr = os.Stdout
+
+	cmd.Parse()
+	// Output:
+	// example: unknown subcommand "gopath"
+	// Run 'example help' for usage.
 }
