@@ -32,7 +32,7 @@ Use "{{.Name}} help [topic]" for more information about that topic.
 
 `
 
-var helpTemplate = `{{if .Runnable}}usage: go {{.UsageLine}}
+var helpTemplate = `{{if .Runnable}}usage: {{.CmdName}} {{.UsageLine}}
 
 {{end}}{{.Long | trim}}{{if .Runnable}}{{if .Defaults}}
 
@@ -115,8 +115,9 @@ func help(args []string) {
 		if cmd.Name() == arg {
 			usageData := struct {
 				*Command
+				CmdName  string
 				Defaults bool
-			}{cmd, Defaults}
+			}{cmd, Name, Defaults}
 
 			tmpl(os.Stdout, helpTemplate, usageData)
 			if Defaults {
