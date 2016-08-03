@@ -3,7 +3,7 @@ package cmd_test
 import (
 	"os"
 
-	"zro.net/go/cmd"
+	"zro.io/cmd"
 )
 
 var cmdGet = cmd.Command{
